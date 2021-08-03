@@ -101,3 +101,11 @@ class MyprojectDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+import random
+from .settings import proxis
+
+class ProxyMiddleware(object):
+    def process_request(self, request, spider):
+        ip = random.choice(proxis)
+        request.meta['proxy'] = ip
+        print(ip)

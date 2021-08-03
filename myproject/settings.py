@@ -25,7 +25,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.2
+DOWNLOAD_DELAY = 0.05
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -41,7 +41,17 @@ COOKIES_ENABLED = True
 #   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 #   'Accept-Language': 'en',
 #}
-
+#ip池
+proxis=['http://60.5.172.209:9999',
+'http://42.177.142.196:9999',
+'http://42.176.134.254:9999',
+'http://218.91.1.20:9999',
+'http://58.255.206.51:9999',
+'http://36.249.118.12:9999',
+'http://51.83.231.86:3128',
+'http://42.177.138.156:9999',
+'http://218.147.194.20:80',
+'http://27.40.127.159:9999']
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
@@ -50,9 +60,10 @@ COOKIES_ENABLED = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'myproject.middlewares.MyprojectDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'myproject.middlewares.MyprojectDownloaderMiddleware': 543,
+   # 'myproject.middlewares.ProxyMiddleware': 250,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

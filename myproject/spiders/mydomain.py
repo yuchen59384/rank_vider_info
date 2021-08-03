@@ -12,21 +12,23 @@ class MydomainSpider(scrapy.Spider):
     #     start_urls.append('https://www.bilibili.com/v/popular/rank/'+t)
     # models_urls=[]
     def start_requests(self):
-        tag = ['all','music', 'dance', 'knowledge', 'tech', 'car', 'life', 'food', 'animal', 'kichiku', 'fashion',
+        # tag = ['all']
+        tag=['all','music', 'dance', 'knowledge', 'tech', 'car', 'life', 'food', 'animal', 'kichiku', 'fashion',
                'ent', 'cinephile']
-        urls = []
         for t in tag:
             url='https://www.bilibili.com/v/popular/rank/'+t
+            print(tag)
             yield scrapy.Request(url,callback=self.parse,meta={'t':t})
 
     def parse(self, response):
+        print(response)
         href_=response.xpath('//a[@class="title"]/@href').extract()
         title=response.xpath('//a[@class="title"]/text()').extract()
         play = response.xpath('//span[@class="data-box"]/text()').extract()
         author = response.xpath('//span[@class="data-box up-name"]/text()').extract()
         t = response.meta['t']
         #输出标题、播放量、弹幕数量
-        for i in range(0,50):
+        for i in range(0,99):
             item = MyprojectItem()
             item['tag']=t
             item['title'] = title[i]
@@ -44,7 +46,7 @@ class MydomainSpider(scrapy.Spider):
     def parse_detail(self,response):
 
         dz = response.xpath('//span[@class="like"]/text()').extract_first().replace(" ","")
-        tb = response.xpath('//span[@class="coin"]/text()').extract_first().replace(" ","")
+        tb = response.xpath('//span[@class="coin"]/text()').extract_first().replace(" ","").replace("\n","")
         sc = response.xpath('//span[@class="collect"]/text()').extract_first().replace(" ","")
         fx = response.xpath('//span[@class="share"]/text()').extract_first().replace(" ","")
         # for dz,tb,sc,fx in zip(dz,tb,sc,fx):

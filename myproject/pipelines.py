@@ -7,12 +7,17 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 import pymongo
-
+import datetime
 class MyprojectPipeline:
+    def __init__(self):
+        self.date = str(datetime.date.today()).replace('-', '')
+
     def open_spider(self,spider):
         self.client=pymongo.MongoClient()
     def process_item(self,item,spider):
-        self.client.rank.myproject.insert_one(item)
+        myclient=self.client.rank
+        mycol=myclient[self.date]
+        mycol.insert_one(item)
     def close_spider(self,spider):
         self.client.close()
     # def process_item(self, item, spider):
